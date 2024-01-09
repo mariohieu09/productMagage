@@ -9,6 +9,8 @@ import com.example.stewie.exception.UnalterableException;
  * This class inherits the common indexing fields, such as 'id' and 'createdAt', from its superclass IndexableEntity.
  * The '@MappedSuperclass' annotation on IndexableEntity indicates that it is not mapped to its own database table,
  * but its fields are included in the mapping of its subclasses.
+ * @author [mariohieu09]
+ * @since [9/1/2024]
  */
 public class ImmutableIdEntity extends IndexableEntity {
 

@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
+
 public interface IGeneralService <D, E, R>{
     List<R> getAll();
 

@@ -25,6 +25,8 @@ import lombok.NoArgsConstructor;
  *
  * This class inherits the common indexing fields, such as 'id' and 'createdAt', from its superclass ImmutableIdEntity.
  * The 'id' field is immutable, and any attempt to modify it will result in an UnalterableException being thrown.
+ * @author [mariohieu09]
+ * @since [9/1/2024]
  */
 @Entity
 @AllArgsConstructor

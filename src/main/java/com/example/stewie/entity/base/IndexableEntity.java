@@ -16,6 +16,8 @@ import java.util.Date;
  *
  * The '@Data' annotation is Lombok-generated and includes boilerplate code for getters, setters, equals, hashCode, and toString.
  * Ensure Lombok is properly configured in the project to leverage its features.
+ * @author [mariohieu09]
+ * @since [9/1/2024]
  */
 @MappedSuperclass
 @Data

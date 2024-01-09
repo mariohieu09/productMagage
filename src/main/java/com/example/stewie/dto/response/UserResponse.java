@@ -9,6 +9,11 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 import java.util.Date;
 
+/**
+ *
+ * @author [mariohieu09]
+ * @since [9/1/2024]
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

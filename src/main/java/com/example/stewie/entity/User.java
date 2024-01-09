@@ -32,6 +32,8 @@ import java.time.LocalDateTime;
  * Fields:
  * - 'username': The unique username associated with the user.
  * - 'encoderString': The encoded string representation associated with the user.
+ * @author [mariohieu09]
+ * @since [9/1/2024]
  */
 @Entity
 @Data
@@ -54,8 +56,6 @@ public class User extends ImmutableIdEntity {
      * This string must follow the regex rule, at least 1 special character, 1 number, 1 Uppercase character
      * and have at least 6 characters long
      */
-
-    @Pattern(regexp = "^(?=.*[!@#$%^&*()-_+=])(?=.*[A-Z])(?=.*[0-9]).{6,}$")
     private String encoderString;
 
 }

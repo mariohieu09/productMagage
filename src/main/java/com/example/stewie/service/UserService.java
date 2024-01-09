@@ -8,6 +8,7 @@ import com.example.stewie.repository.UserRepository;
 import com.example.stewie.service.base.AbstractGeneralService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -15,7 +16,8 @@ import java.util.Optional;
 
 @Service
 public class UserService extends AbstractGeneralService<UserRequest, User, UserResponse> {
-
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     private UserRepository userRepository;
@@ -23,7 +25,12 @@ public class UserService extends AbstractGeneralService<UserRequest, User, UserR
         super(userRepository);
     }
 
-
+    @Override
+    public UserResponse save(UserRequest dto) {
+        // Encode user password before save to database
+        dto.setPassword(passwordEncoder.encode(dto.getPassword()));
+        return super.save(dto);
+    }
 
     @Override
     public User convertToEntity(UserRequest dto) {
