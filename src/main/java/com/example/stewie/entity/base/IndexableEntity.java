@@ -5,6 +5,7 @@ import lombok.Data;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  * An abstract class representing an indexable entity in the database.
@@ -31,6 +32,6 @@ public abstract class IndexableEntity {
      * The timestamp representing the creation date and time of the entity.
      */
     @Column(name = "created_at")
-    private LocalDateTime createdAt;
+    private Date createdAt;
 
 }

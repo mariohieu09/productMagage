@@ -1,6 +1,7 @@
 package com.example.stewie.entity;
 
 import com.example.stewie.entity.base.ImmutableIdEntity;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -10,6 +11,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
 
 
 /**
@@ -43,14 +46,16 @@ public class User extends ImmutableIdEntity {
     @NotBlank
     @NotNull
     @Size(min = 6, max = 15, message = "Username must be over 6 characters long and under 15 characters")
+    @Column(unique = true)
     private String username;
 
     /**
      * The encoded string representation associated with the user.
+     * This string must follow the regex rule, at least 1 special character, 1 number, 1 Uppercase character
+     * and have at least 6 characters long
      */
 
     @Pattern(regexp = "^(?=.*[!@#$%^&*()-_+=])(?=.*[A-Z])(?=.*[0-9]).{6,}$")
     private String encoderString;
-
 
 }
