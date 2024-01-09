@@ -2,6 +2,10 @@ package com.example.stewie.entity;
 
 import com.example.stewie.entity.base.ImmutableIdEntity;
 import jakarta.persistence.Entity;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -33,14 +37,19 @@ public class Product extends ImmutableIdEntity {
     /**
      * The name of the product.
      */
+    @NotNull
+    @NotBlank
+    @Size(max = 20, message = "The product's name must not over 20 character long!")
     private String name;
     /**
      * The description of the product
      */
+    @Size(max = 150, message = "The product's description must not over 150 character long!")
     private String description;
     /**
      * The price of the product
      */
+    @Max(value = 1000000, message = "Product price must not get over 1 mil $!")
     private double price;
     /**
      * The source of product's image

@@ -2,6 +2,10 @@ package com.example.stewie.entity;
 
 import com.example.stewie.entity.base.ImmutableIdEntity;
 import jakarta.persistence.Entity;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -36,11 +40,16 @@ public class User extends ImmutableIdEntity {
     /**
      * The unique username associated with the user.
      */
+    @NotBlank
+    @NotNull
+    @Size(min = 6, max = 15, message = "Username must be over 6 characters long and under 15 characters")
     private String username;
 
     /**
      * The encoded string representation associated with the user.
      */
+
+    @Pattern(regexp = "^(?=.*[!@#$%^&*()-_+=])(?=.*[A-Z])(?=.*[0-9]).{6,}$")
     private String encoderString;
 
 
