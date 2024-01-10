@@ -1,4 +1,4 @@
-package com.example.stewie.exception;
+package com.example.stewie.advice;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,13 +9,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class BaseException extends RuntimeException{
-
-    private String message;
+public class ErroMessage<T> {
 
     private int status;
 
-    private String timestamp;
+    private String message;
 
-
+    T data;
 }

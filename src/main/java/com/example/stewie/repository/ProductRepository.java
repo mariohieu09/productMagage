@@ -4,7 +4,7 @@ import com.example.stewie.entity.Product;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-
+@Repository
 public interface ProductRepository extends BaseRepository<Product>{
 
 }
