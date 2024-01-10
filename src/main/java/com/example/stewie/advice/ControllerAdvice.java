@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 
-import java.net.BindException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,14 +23,14 @@ public class ControllerAdvice {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErroMessage<Map<String, String>> handleBindingException(MethodArgumentNotValidException ex, WebRequest webRequest){
+    public ErrorMessage<Map<String, String>> handleBindingException(MethodArgumentNotValidException ex, WebRequest webRequest){
         BindingResult bindingResult = ex.getBindingResult();
         Map<String, String> errors = new HashMap<>();
 
         for (FieldError fieldError : bindingResult.getFieldErrors()) {
             errors.put(fieldError.getField(), fieldError.getDefaultMessage());
         }
-        return ErroMessage.<Map<String, String>>builder()
+        return ErrorMessage.<Map<String, String>>builder()
                 .data(errors)
                 .status(400)
                 .message("Error binding!")
@@ -40,8 +39,8 @@ public class ControllerAdvice {
 
     @ExceptionHandler(RuntimeException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErroMessage handleRuntimeException(Exception ex, WebRequest webRequest){
-        return ErroMessage.builder()
+    public ErrorMessage handleRuntimeException(Exception ex, WebRequest webRequest){
+        return ErrorMessage.builder()
                 .message(ex.getMessage())
                 .status(400)
                 .build();

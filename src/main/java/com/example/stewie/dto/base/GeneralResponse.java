@@ -8,6 +8,13 @@ import org.hibernate.type.descriptor.DateTimeUtils;
 
 import java.util.Date;
 
+/**
+ *
+ *
+ * @param <T> Generic type relate to General Response
+ * @author [mariohieu09]
+ * @since [10/1/2024]
+ */
 @Data
 @AllArgsConstructor(staticName = "of")
 @NoArgsConstructor

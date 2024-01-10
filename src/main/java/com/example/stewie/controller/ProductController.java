@@ -24,19 +24,34 @@ public class ProductController {
 
     private final ProductService productService;
 
-
+    /**
+     * Retrieves a list of all products.
+     *
+     * @return GeneralResponse<List<ProductResponse>> - Response containing the list of products.
+     */
     @GetMapping("/get-all")
     @ResponseStatus(HttpStatus.OK)
     public GeneralResponse<List<ProductResponse>> getAllProducts(){
         return GeneralResponse.ofSuccess(productService.getAll(), "List products");
     }
-
+    /**
+     * Creates a new product.
+     *
+     * @param productRequest ProductRequest - The request payload for creating a product.
+     * @return GeneralResponse<ProductResponse> - Response containing the created product.
+     */
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public GeneralResponse<ProductResponse> createProduct(@Validated @RequestBody ProductRequest productRequest){
         return GeneralResponse.ofCreate(productService.save(productRequest), "Create successful!");
     }
 
+    /**
+     * Retrieves a product by its unique identifier.
+     *
+     * @param id Long - The unique identifier of the product.
+     * @return GeneralResponse<ProductResponse> - Response containing the product information.
+     */
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public GeneralResponse<ProductResponse> getProductById(@PathVariable Long id){
