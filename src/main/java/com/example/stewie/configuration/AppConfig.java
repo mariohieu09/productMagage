@@ -3,6 +3,7 @@ package com.example.stewie.configuration;
 import com.example.stewie.repository.UserRepository;
 import com.example.stewie.security.CustomUserDetail;
 import com.example.stewie.security.CustomUserDetailService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,14 +24,17 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 public class AppConfig {
+
+    @Autowired
+    private UserRepository userRepository;
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
     @Bean
-    public UserDetailsService userDetailsService(UserRepository repository){
-        return new CustomUserDetailService(repository);
+    public UserDetailsService userDetailsService(){
+        return new CustomUserDetailService(userRepository);
     }
 
     @Bean
