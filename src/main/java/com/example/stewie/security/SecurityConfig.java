@@ -1,5 +1,6 @@
 package com.example.stewie.security;
 
+import com.example.stewie.constant.UrlConstant;
 import com.example.stewie.filter.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -10,6 +11,9 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import java.util.Arrays;
+import java.util.Map;
 
 
 @EnableWebSecurity
@@ -34,8 +38,10 @@ public class SecurityConfig {
                 .csrf().disable()
                 .securityMatcher("/api/**")
                 .authorizeHttpRequests(auth -> {
-                    auth.requestMatchers("/api/**").permitAll();
-
+                    auth.requestMatchers(whitelist()).permitAll();
+                    for(Map.Entry<String, String> entry : UrlConstant.URL_SECURE.getEndpoints().entrySet()){
+                        auth.requestMatchers(entry.getKey()).hasAuthority(entry.getValue());
+                    }
                 })
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
@@ -43,5 +49,9 @@ public class SecurityConfig {
     }
 
 
-
+    private String[] whitelist(){
+        return new String[]{
+                "/api/auth/**"
+        };
+    }
 }

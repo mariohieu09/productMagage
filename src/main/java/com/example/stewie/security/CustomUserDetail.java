@@ -1,26 +1,44 @@
 package com.example.stewie.security;
 
+import com.example.stewie.constant.RoleConstant;
 import com.example.stewie.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Collection;
+import java.util.*;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 public class CustomUserDetail implements UserDetails {
 
+    private static final String PREFIX_ROLE = "ROLE_";
     private User user;
 
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        String role = this.user.getUserRole().getName();
+        List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
+        for(RoleConstant roleConstant : RoleConstant.values()){
+            if(role.equals(roleConstant.name())){
+                Set<GrantedAuthority> grantedAuthoritySet = new HashSet<>(
+                        roleConstant.getPermissions()
+                                .stream()
+                                .map(SimpleGrantedAuthority::new)
+                                .toList()
+                );
+                grantedAuthorities.addAll(grantedAuthoritySet);
+            }
+        }
+        grantedAuthorities.add(new SimpleGrantedAuthority(PREFIX_ROLE + role));
+        return grantedAuthorities;
     }
 
     @Override

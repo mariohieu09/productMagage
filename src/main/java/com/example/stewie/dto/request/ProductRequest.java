@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ProductRequest extends BaseDto {
+public class        ProductRequest extends BaseDto {
     @Size(max = 20, message = "The product's name must not over 20 characters long")
     private String name;
 

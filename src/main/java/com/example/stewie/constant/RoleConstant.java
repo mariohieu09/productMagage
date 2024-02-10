@@ -17,7 +17,8 @@ public enum RoleConstant {
     )),
     USER(Set.of(
             "VIEW_PRODUCT",
-            "GET_ALL_PRODUCT"
+            "GET_ALL_PRODUCT",
+            "CREATE_PRODUCT"
     ))
 
     ;
