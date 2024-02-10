@@ -5,11 +5,20 @@ import com.example.stewie.dto.request.ProductRequest;
 import com.example.stewie.dto.response.ProductResponse;
 import com.example.stewie.service.ProductService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.method.HandlerMethod;
+import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
+import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -20,6 +29,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/product")
+@Slf4j
 public class ProductController {
 
     private final ProductService productService;
@@ -57,6 +67,8 @@ public class ProductController {
     public GeneralResponse<ProductResponse> getProductById(@PathVariable Long id){
         return GeneralResponse.ofSuccess(productService.getById(id), "Product by id");
     }
+
+
 
 
 }

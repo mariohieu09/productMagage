@@ -4,7 +4,6 @@ import com.example.stewie.dto.base.GeneralResponse;
 import com.example.stewie.dto.request.AuthenticationRequest;
 import com.example.stewie.dto.response.AuthenticationResponse;
 import com.example.stewie.entity.User;
-import com.example.stewie.entity.UserRole;
 import com.example.stewie.repository.BaseRepository;
 import com.example.stewie.repository.UserRepository;
 import com.example.stewie.security.CustomUserDetail;
@@ -18,9 +17,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.Map;
 
-import static com.example.stewie.entity.UserRole.ADMIN;
-import static com.example.stewie.entity.UserRole.USER;
 
 @Service
 public class AuthenticationService extends AbstractGeneralService<AuthenticationRequest, User, AuthenticationResponse> {
@@ -43,7 +41,7 @@ public class AuthenticationService extends AbstractGeneralService<Authentication
     public GeneralResponse<AuthenticationResponse> register(AuthenticationRequest dto){
         User user = this.convertToEntity(dto);
         user.setEncoderString(passwordEncoder.encode(dto.getPassword()));
-        user.setUserRole(USER);
+//        user.setUserRole(USER);
         user.setCreatedAt(new Date());
         userRepository.save(user);
         return GeneralResponse.ofCreate(this.convertToDto(user), "Created success!");
@@ -77,9 +75,10 @@ public class AuthenticationService extends AbstractGeneralService<Authentication
         User user = User.builder()
                 .username("admin")
                 .encoderString(passwordEncoder.encode("123456"))
-                .userRole(ADMIN)
                 .build();
         userRepository.save(user);
+
+
     }
 
 

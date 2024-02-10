@@ -1,45 +1,23 @@
 package com.example.stewie.entity;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import com.example.stewie.entity.base.ImmutableIdEntity;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.Set;
-import static com.example.stewie.entity.Permissions.*;
 
-/**
- * This class define role for user
- */
-@RequiredArgsConstructor
-@Getter
-public enum UserRole {
+@Entity
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+public class UserRole extends ImmutableIdEntity {
+    private String name;
 
-    ADMIN(Set.of(
-            VIEW_ALL_USERS,
-            UPDATE_USER,
-            CREATE_USER,
-            DELETE_USER,
-            GET_USER
-    )),
-    USER(Collections.emptySet())
+    @ManyToMany
+    private Set<Permissions> permissionsSet;
 
-    ;
-    /**
-     * A set of permission has already defined in every role
-     */
-    private  final Set<Permissions> permissionsSet;
-
-
-    public List<GrantedAuthority> getAuthorities(){
-        List<GrantedAuthority> authorityList = new ArrayList<>();
-        for(Permissions p : permissionsSet){
-           authorityList.add(new SimpleGrantedAuthority(p.name()));
-        }
-        authorityList.add(new SimpleGrantedAuthority("ROLE_" + this.name()));
-        return authorityList;
-    }
 }

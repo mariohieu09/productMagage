@@ -20,7 +20,7 @@ public class CustomUserDetail implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return user.getUserRole().getAuthorities();
+        return null;
     }
 
     @Override

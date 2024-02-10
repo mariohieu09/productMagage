@@ -1,23 +1,27 @@
 package com.example.stewie.entity;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import com.example.stewie.entity.base.ImmutableIdEntity;
+import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-/**
- * This enum defines permission for every endpoint the application
- */
-@Getter
-@RequiredArgsConstructor
-public enum Permissions {
+import javax.management.relation.Role;
+import java.util.Set;
 
-    VIEW_ALL_USERS("/api/v1/users/all"),
-    CREATE_USER("/api/v1/users/create"),
-    DELETE_USER("/api/v1/users/delete/{id}"),
-    UPDATE_USER("/api/v1/users/update/{id}"),
-    GET_USER("/api/v1/users/get/{id}")
+@Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class Permissions extends ImmutableIdEntity {
 
+    private String endpoint;
 
-    ;
-    private final String endpoint;
+    private String name;
 
 }

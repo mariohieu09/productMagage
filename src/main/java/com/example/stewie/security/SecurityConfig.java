@@ -1,8 +1,6 @@
 package com.example.stewie.security;
 
-import com.example.stewie.entity.Permissions;
 import com.example.stewie.filter.JwtAuthenticationFilter;
-import com.example.stewie.entity.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -36,10 +34,8 @@ public class SecurityConfig {
                 .csrf().disable()
                 .securityMatcher("/api/**")
                 .authorizeHttpRequests(auth -> {
-                    auth.requestMatchers("/api/auth/**").permitAll();
-                    for (Permissions p : UserRole.ADMIN.getPermissionsSet()){
-                        auth.requestMatchers(p.getEndpoint()).hasAuthority(p.name());
-                    }
+                    auth.requestMatchers("/api/**").permitAll();
+
                 })
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
