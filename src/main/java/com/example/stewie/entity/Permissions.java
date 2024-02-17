@@ -1,10 +1,8 @@
 package com.example.stewie.entity;
 
 import com.example.stewie.entity.base.ImmutableIdEntity;
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
+import com.example.stewie.entity.base.IndexableEntity;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,8 +16,11 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Permissions extends ImmutableIdEntity {
+public class Permissions {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String endpoint;
 
     private String name;

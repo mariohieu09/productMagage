@@ -13,6 +13,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.Map;
 
 
@@ -39,8 +40,15 @@ public class SecurityConfig {
                 .securityMatcher("/api/**")
                 .authorizeHttpRequests(auth -> {
                     auth.requestMatchers(whitelist()).permitAll();
-                    for(Map.Entry<String, String> entry : UrlConstant.URL_SECURE.getEndpoints().entrySet()){
-                        auth.requestMatchers(entry.getKey()).hasAuthority(entry.getValue());
+                    for(Map.Entry<Long,Map<String, String>> entry : UrlConstant.URL_SECURE.getEndpoints().entrySet()){
+                        Iterator<Map.Entry<String, String>> iterator = entry.getValue().entrySet().iterator();
+                        if(iterator.hasNext()){
+                            Map.Entry<String, String> mapIterator = iterator.next();
+                            String endpoint = mapIterator.getKey();
+                            String permission = mapIterator.getValue();
+                            auth.requestMatchers(endpoint).hasAuthority(permission);
+                        }
+//                        auth.requestMatchers(entry.getKey()).hasAuthority(entry.getValue());
                     }
                 })
                 .authenticationProvider(authenticationProvider)

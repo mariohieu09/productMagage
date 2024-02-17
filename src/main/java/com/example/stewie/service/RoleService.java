@@ -8,12 +8,14 @@ import com.example.stewie.repository.PermissionRepository;
 import com.example.stewie.repository.RoleRepository;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
 @Service
+@Order(1)
 public class RoleService {
 
 
@@ -25,11 +27,12 @@ public class RoleService {
     @Transactional
     @PostConstruct
     public void persistRole(){
-        List<RoleConstant> list = Arrays.asList(RoleConstant.values());
+        List<RoleConstant> list = List.of(RoleConstant.values());
         for(RoleConstant roleConstant : list){
             Optional<UserRole> userRoleOptional = roleRepository.findByName(roleConstant.name());
             if(userRoleOptional.isPresent()){
                 UserRole userRole = userRoleOptional.get();
+                userRole.setPermissionsSet(new HashSet<>(getAllPermission(roleConstant)));
                 roleRepository.save(userRole);
             }else{
                 roleRepository.save(UserRole.builder()
@@ -44,4 +47,13 @@ public class RoleService {
             }
         }
     }
+
+    private List<Permissions> getAllPermission(RoleConstant roleConstant){
+        List<Permissions> permissions = new ArrayList<>();
+        for(String name : roleConstant.getPermissions()){
+            permissions.add(permissionRepository.findByName(name));
+        }
+        return permissions;
+    }
+
 }

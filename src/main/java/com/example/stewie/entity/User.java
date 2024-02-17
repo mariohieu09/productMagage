@@ -54,7 +54,7 @@ public class User extends ImmutableIdEntity {
      */
     private String encoderString;
 
-    @OneToOne
+    @ManyToOne
     private UserRole userRole;
 
     @OneToMany

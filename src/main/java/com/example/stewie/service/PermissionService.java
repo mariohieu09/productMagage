@@ -30,20 +30,51 @@ public class PermissionService {
     @Transactional
     @PostConstruct
     public void persistPermission(){
-        Map<String, String> endpoints = UrlConstant.URL_SECURE.getEndpoints();
-        for(Map.Entry<String, String> entry : endpoints.entrySet()){
-            Optional<Permissions> permissionsOptional = permissionRepository.findByEndpoint(entry.getKey());
+        Map<Long, Map<String, String>> endpoints = UrlConstant.URL_SECURE.getEndpoints();
+//        for(Map.Entry<String, String> entry : endpoints.entrySet()){
+//            Optional<Permissions> permissionsOptional = permissionRepository.findByEndpoint(entry.getKey());
+//            if(permissionsOptional.isPresent()){
+//                Permissions existPermission = permissionsOptional.get();
+//                existPermission.setEndpoint(entry.getKey());
+//                existPermission.setName(entry.getValue());
+//                permissionRepository.save(existPermission);
+//            }else{
+//                permissionRepository.save(Permissions.builder()
+//                                .name(entry.getValue())
+//                                .endpoint(entry.getKey())
+//                        .build());
+//
+//            }
+//        }
+        for(Map.Entry<Long, Map<String, String>> entry : endpoints.entrySet()){
+            Optional<Permissions> permissionsOptional = permissionRepository.findById(entry.getKey());
             if(permissionsOptional.isPresent()){
+                Iterator<Map.Entry<String, String>> iterator = entry.getValue().entrySet().iterator();
                 Permissions existPermission = permissionsOptional.get();
-                existPermission.setEndpoint(entry.getKey());
-                existPermission.setName(entry.getValue());
-                permissionRepository.save(existPermission);
+                if(iterator.hasNext()){
+                    Map.Entry<String, String> mapEntry = iterator.next();
+                    String endPoint = mapEntry.getKey();
+                    String permissionName = mapEntry.getValue();
+                    existPermission.setEndpoint(endPoint);
+                    existPermission.setName(permissionName);
+                    permissionRepository.save(existPermission);
+                }else{
+                    throw new RuntimeException("Have no value in map!");
+                }
             }else{
-                permissionRepository.save(Permissions.builder()
-                                .name(entry.getValue())
-                                .endpoint(entry.getKey())
-                        .build());
-
+                Iterator<Map.Entry<String, String>> iterator = entry.getValue().entrySet().iterator();
+                if(iterator.hasNext()) {
+                    Map.Entry<String, String> mapEntry = iterator.next();
+                    String endPoint = mapEntry.getKey();
+                    String permissionName = mapEntry.getValue();
+                    permissionRepository.save(Permissions.builder()
+                            .id(entry.getKey())
+                            .name(permissionName)
+                            .endpoint(endPoint)
+                            .build());
+                }else{
+                    throw new RuntimeException("Have no value in map!");
+                }
             }
         }
     }

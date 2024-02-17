@@ -15,6 +15,8 @@ import com.example.stewie.service.base.AbstractGeneralService;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.DependsOn;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -26,6 +28,8 @@ import java.util.Map;
 
 
 @Service
+@DependsOn("roleService")
+@Order(Integer.MAX_VALUE)
 public class AuthenticationService extends AbstractGeneralService<AuthenticationRequest, User, AuthenticationResponse> {
 
     @Autowired
@@ -84,6 +88,7 @@ public class AuthenticationService extends AbstractGeneralService<Authentication
         User user = User.builder()
                 .username("admin")
                 .encoderString(passwordEncoder.encode("123456"))
+                .userRole(roleRepository.findByName(RoleConstant.ADMIN.name()).get())
                 .build();
         userRepository.save(user);
 

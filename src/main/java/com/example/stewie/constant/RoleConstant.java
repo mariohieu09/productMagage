@@ -13,7 +13,9 @@ public enum RoleConstant {
             "CREATE_USER",
             "DELETE_USER",
             "UPDATE_USER",
-            "GET_USER"
+            "GET_USER",
+            "GET_ALL_USERS",
+            "CREATE_PRODUCT"
     )),
     USER(Set.of(
             "VIEW_PRODUCT",
