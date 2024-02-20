@@ -29,7 +29,7 @@ public class CustomUserDetail implements UserDetails {
         for(RoleConstant roleConstant : RoleConstant.values()){
             if(role.equals(roleConstant.name())){
                 Set<GrantedAuthority> grantedAuthoritySet = new HashSet<>(
-                        roleConstant.getPermissions()
+                        roleConstant.getPermission()
                                 .stream()
                                 .map(SimpleGrantedAuthority::new)
                                 .toList()
@@ -37,6 +37,9 @@ public class CustomUserDetail implements UserDetails {
                 grantedAuthorities.addAll(grantedAuthoritySet);
             }
         }
+        grantedAuthorities.addAll(this.user.getExtraPermission().stream()
+                .map(s -> new SimpleGrantedAuthority(s.getName()))
+                .toList());
         grantedAuthorities.add(new SimpleGrantedAuthority(PREFIX_ROLE + role));
         return grantedAuthorities;
     }

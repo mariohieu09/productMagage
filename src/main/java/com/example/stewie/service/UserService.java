@@ -47,6 +47,7 @@ public class UserService extends AbstractGeneralService<UserRequest, User, UserR
                 .username(entity.getUsername())
                 .id(entity.getId())
                 .userRole(entity.getUserRole())
+                .extraPermissions(entity.getExtraPermission())
                 .build();
     }
 

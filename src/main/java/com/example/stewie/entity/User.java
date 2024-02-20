@@ -57,7 +57,7 @@ public class User extends ImmutableIdEntity {
     @ManyToOne
     private UserRole userRole;
 
-    @OneToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private Set<Permissions> extraPermission;
 
 }

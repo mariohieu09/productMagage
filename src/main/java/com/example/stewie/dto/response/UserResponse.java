@@ -1,6 +1,7 @@
 package com.example.stewie.dto.response;
 
 import com.example.stewie.dto.base.BaseDto;
+import com.example.stewie.entity.Permissions;
 import com.example.stewie.entity.UserRole;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,6 +10,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.Set;
 
 /**
  *
@@ -27,5 +29,6 @@ public class UserResponse extends BaseDto {
     private Date createdAt;
     private String username;
     private UserRole userRole;
+    private Set<Permissions> extraPermissions;
 
 }

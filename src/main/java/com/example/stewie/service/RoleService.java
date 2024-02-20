@@ -8,6 +8,7 @@ import com.example.stewie.repository.PermissionRepository;
 import com.example.stewie.repository.RoleRepository;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,7 +16,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.*;
 
 @Service
-@Order(1)
+@Order(2)
+@DependsOn("permissionService")
 public class RoleService {
 
 
@@ -38,9 +40,9 @@ public class RoleService {
                 roleRepository.save(UserRole.builder()
                                 .name(roleConstant.name())
                                 .permissionsSet(new HashSet<>(
-                                        roleConstant.getPermissions()
+                                        roleConstant.getPermission()
                                                 .stream()
-                                                .map(s -> permissionRepository.findByName(s))
+                                                .map(s -> permissionRepository.findByName(s).get())
                                                 .toList()
                                 ))
                         .build());
@@ -50,8 +52,8 @@ public class RoleService {
 
     private List<Permissions> getAllPermission(RoleConstant roleConstant){
         List<Permissions> permissions = new ArrayList<>();
-        for(String name : roleConstant.getPermissions()){
-            permissions.add(permissionRepository.findByName(name));
+        for(String name : roleConstant.getPermission()){
+            permissions.add(permissionRepository.findByName(name).get());
         }
         return permissions;
     }

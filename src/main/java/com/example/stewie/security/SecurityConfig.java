@@ -1,7 +1,10 @@
 package com.example.stewie.security;
 
+import com.example.stewie.constant.RoleConstant;
 import com.example.stewie.constant.UrlConstant;
+import com.example.stewie.entity.Permissions;
 import com.example.stewie.filter.JwtAuthenticationFilter;
+import com.example.stewie.service.PermissionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,6 +28,8 @@ public class SecurityConfig {
 
     private final AuthenticationProvider authenticationProvider;
 
+    private final PermissionService permissionService;
+
     /**
      * Set up a SecurityFilterChain. It secures endpoint and assign what role has permission to access the resources endpoint
      *
@@ -40,16 +45,10 @@ public class SecurityConfig {
                 .securityMatcher("/api/**")
                 .authorizeHttpRequests(auth -> {
                     auth.requestMatchers(whitelist()).permitAll();
-                    for(Map.Entry<Long,Map<String, String>> entry : UrlConstant.URL_SECURE.getEndpoints().entrySet()){
-                        Iterator<Map.Entry<String, String>> iterator = entry.getValue().entrySet().iterator();
-                        if(iterator.hasNext()){
-                            Map.Entry<String, String> mapIterator = iterator.next();
-                            String endpoint = mapIterator.getKey();
-                            String permission = mapIterator.getValue();
-                            auth.requestMatchers(endpoint).hasAuthority(permission);
-                        }
-//                        auth.requestMatchers(entry.getKey()).hasAuthority(entry.getValue());
+                    for(Map.Entry<String, String> entry : UrlConstant.URL_SECURE.getEndpoints().entrySet()){
+                        auth.requestMatchers(entry.getKey()).hasAuthority(entry.getValue());
                     }
+                    auth.requestMatchers("/api/**").hasRole(RoleConstant.ADMIN.name());
                 })
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
